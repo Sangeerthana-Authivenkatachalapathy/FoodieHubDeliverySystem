@@ -12,5 +12,6 @@ namespace FoodieHubDeliverySystem.Repository.Enums
         Restaurant,
         DeliveryPartner,
         Admin
+
     }
 }
