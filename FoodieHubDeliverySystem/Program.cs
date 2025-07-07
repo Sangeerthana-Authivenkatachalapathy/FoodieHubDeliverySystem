@@ -1,4 +1,7 @@
 
+using FoodieHubDeliverySystem.Repository.Interface;
+using FoodieHubDeliverySystem.Repository.Services;
+
 namespace FoodieHubDeliverySystem
 {
     public class Program
@@ -8,7 +11,9 @@ namespace FoodieHubDeliverySystem
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
+            builder.Services.AddScoped<IRazorpayService, RazorpayService>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
