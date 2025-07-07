@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FoodieHubDeliverySystem.Repository.Repository
+namespace FoodieHubDeliverySystem.Repository.Enums
 {
-    internal class RestaurantRepository
+    public enum PaymentStatus
     {
+        Pending,
+        Paid,
+        Failed
     }
 }
