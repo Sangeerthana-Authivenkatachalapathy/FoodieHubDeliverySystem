@@ -9,13 +9,8 @@ using System.Threading.Tasks;
 namespace FoodieHubDeliverySystem.Repository.Models
 {
     public class OrderItem
-<<<<<<< HEAD
-    {
-=======
 
     {
-
->>>>>>> master
         [Key]
         public int Id { get; set; }
 
@@ -33,14 +28,9 @@ namespace FoodieHubDeliverySystem.Repository.Models
 
         [Required]
         public decimal Price { get; set; }
-<<<<<<< HEAD
 
-
-    }
-=======
         public MenuItem MenuItem { get; set; }
 
     }
 
->>>>>>> master
 }

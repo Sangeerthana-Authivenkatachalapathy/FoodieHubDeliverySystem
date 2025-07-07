@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodieHubDeliverySystem.Repository.Services
 {
@@ -96,7 +97,7 @@ namespace FoodieHubDeliverySystem.Repository.Services
         public async Task<List<OrderHistoryDto>> GetOrderHistoryAsync(int userId)
         {
             var orders = await _context.FoodOrders
-                .Where(o => o.CustomerId == userId)
+                .Where(o => o.UserId == userId)
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.MenuItem)
                 .OrderByDescending(o => o.OrderDate)
@@ -107,7 +108,7 @@ namespace FoodieHubDeliverySystem.Repository.Services
                 OrderId = o.OrderId,
                 OrderDate = o.OrderDate,
                 TotalAmount = o.TotalAmount,
-                Status = o.Status.ToString(),
+                Status = o.OrderStatus,
                 Items = o.OrderItems.Select(oi => new OrderItemSummaryDto
                 {
                     ItemName = oi.MenuItem.Name,

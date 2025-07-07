@@ -17,11 +17,9 @@ namespace FoodieHubDeliverySystem.Repository.Models
     {
 
         [Key]
-
         public int OrderId { get; set; }
 
         [Required]
-
         public int UserId { get; set; } // FK to User
 
         [ForeignKey("UserId")]
