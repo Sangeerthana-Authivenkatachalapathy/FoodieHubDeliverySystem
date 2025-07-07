@@ -20,6 +20,18 @@ namespace FoodieHubDeliverySystem.Repository.Models
         [ForeignKey("User")]
         public int CustomerId { get; set; }
         [Required]
+<<<<<<< HEAD
+        [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5")]
+        public string Rating { get; set; }
+        [MaxLength(1000)]
+        public string Comment { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public Restaurant Restaurant { get; set; }
+        //public User User { get; set; }
+
+    }
+}
+=======
         [Range(1,5,ErrorMessage="Rating must be between 1 and 5")]
         public string Rating { get; set; }
         [MaxLength(1000)]
@@ -30,3 +42,4 @@ namespace FoodieHubDeliverySystem.Repository.Models
 
     }
 }
+>>>>>>> 87cda9004bb817b7e4b1671514eb4b02eefd9943

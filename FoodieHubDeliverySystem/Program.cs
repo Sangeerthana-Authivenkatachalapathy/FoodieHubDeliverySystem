@@ -9,8 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
 
-using FoodieHubDeliverySystem.Repository.Interface;
-using FoodieHubDeliverySystem.Repository.Services;
 
 namespace FoodieHubDeliverySystem
 {
