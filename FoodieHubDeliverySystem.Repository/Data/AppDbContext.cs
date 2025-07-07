@@ -1,13 +1,21 @@
 ﻿using FoodieHubDeliverySystem.Repository.Models;
+
+using Microsoft.EntityFrameworkCore;
+using System.Runtime.Intrinsics.Arm;
 using FoodieHubDeliverySystem.Repository.Models.FoodieHubDeliverySystem.Repository.Models;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace FoodieHubDeliverySystem.Data
 {
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        { }
+
+        {
+
+        
+         }
         public DbSet<User> Users { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
@@ -105,9 +113,11 @@ namespace FoodieHubDeliverySystem.Data
                 .HasForeignKey(da => da.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+
             modelBuilder.Entity<DeliveryPartner>()
                 .HasOne(dp => dp.User)
                 .WithMany()
+
                 .HasForeignKey(dp => dp.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
