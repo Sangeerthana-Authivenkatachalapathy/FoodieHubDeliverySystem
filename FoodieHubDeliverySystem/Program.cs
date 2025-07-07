@@ -1,4 +1,10 @@
 
+using FoodieHubDeliverySystem.Data;
+using FoodieHubDeliverySystem.Repository.Interface;
+using FoodieHubDeliverySystem.Repository.Repository;
+using FoodieHubDeliverySystem.Repository.Services;
+using Microsoft.EntityFrameworkCore;
+
 namespace FoodieHubDeliverySystem
 {
     public class Program
@@ -13,6 +19,13 @@ namespace FoodieHubDeliverySystem
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<AppDbContext>(Options =>
+            Options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<IDeliveryPartnerRepository, DeliveryPartnerRepository>();
+            builder.Services.AddScoped<IDeliveryPartnerService, DeliveryPartnerService>();
+
 
             var app = builder.Build();
 
