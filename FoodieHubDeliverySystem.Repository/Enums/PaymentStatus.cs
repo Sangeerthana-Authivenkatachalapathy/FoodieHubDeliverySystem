@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace FoodieHubDeliverySystem.Repository.Enums
 {
+<<<<<<<< HEAD:FoodieHubDeliverySystem.Repository/Enums/UserRole.cs
+    internal class UserRole
+========
     public enum PaymentStatus
     {
         Pending,

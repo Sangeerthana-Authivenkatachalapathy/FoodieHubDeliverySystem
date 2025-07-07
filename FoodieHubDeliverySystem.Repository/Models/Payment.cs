@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 namespace FoodieHubDeliverySystem.Repository.Models
 {
     public class Payment
+
     {
+
         [Key]
         public int PaymentId { get; set; }
 
@@ -24,10 +26,12 @@ namespace FoodieHubDeliverySystem.Repository.Models
         public decimal Amount { get; set; }
 
         [Required]
+
         [MaxLength(20)]
         public string PaymentMethod { get; set; } // e.g., upi, gpay, card
 
         [Required]
+
         [MaxLength(20)]
         public PaymentStatus PaymentStatus { get; set; } // Pending, Success, Failed
 
@@ -41,4 +45,5 @@ namespace FoodieHubDeliverySystem.Repository.Models
 
 
     }
+
 }

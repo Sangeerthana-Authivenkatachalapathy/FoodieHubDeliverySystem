@@ -1,46 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FoodieHubDeliverySystem.Repository.Models
 {
-    public class OrderItem
-<<<<<<< HEAD
+    public class CartItem
     {
-=======
-
-    {
-
->>>>>>> master
         [Key]
         public int Id { get; set; }
-
         [Required]
-        public int OrderId { get; set; }
-
-        [ForeignKey("OrderId")]
-        public FoodOrder FoodOrder { get; set; }
-
+        public int UserId { get; set; }
+        public User User { get; set; }
         [Required]
         public int MenuItemId { get; set; }
-
+        public MenuItem MenuItem { get; set; }
         [Required]
         public int Quantity { get; set; }
-
-        [Required]
-        public decimal Price { get; set; }
-<<<<<<< HEAD
-
-
-    }
-=======
-        public MenuItem MenuItem { get; set; }
+        public decimal Discount {  get; set; }
+        public string? AppliedCoupon {  get; set; }
+        public DateTime AddedAt { get; set; } = DateTime.Now;
+        public DateTime? UpdatedAt { get; set; }
+        public bool IsActive { get; set; } = true;
 
     }
-
->>>>>>> master
 }
