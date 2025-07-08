@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,11 +17,9 @@ namespace FoodieHubDeliverySystem.Repository.Models
     {
 
         [Key]
-
         public int OrderId { get; set; }
 
         [Required]
-
         public int UserId { get; set; } // FK to User
 
         [ForeignKey("UserId")]

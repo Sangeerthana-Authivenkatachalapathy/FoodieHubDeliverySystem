@@ -19,6 +19,7 @@ namespace FoodieHubDeliverySystem.Repository.Models
         public string PasswordHash {  get; set; }
         public string PhoneNumber {  get; set; }
         public bool IsPhoneVerified { get; set; }
+        public string Address { get; set; }
         public string DigiPin {  get; set; }
         public UserRole Role { get; set; }
         public bool IsApproved {  get; set; } = false;

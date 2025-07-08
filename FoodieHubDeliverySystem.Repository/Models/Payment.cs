@@ -34,12 +34,14 @@ namespace FoodieHubDeliverySystem.Repository.Models
 
         [MaxLength(20)]
         public PaymentStatus PaymentStatus { get; set; } // Pending, Success, Failed
+
         public DateTime? PaidDate { get; set; }
 
         // Razorpay tracking fields
         public string RazorpayOrderId { get; set; }
         public string RazorpayPaymentId { get; set; }
         public string RazorpaySignature { get; set; }
+
 
 
     }
