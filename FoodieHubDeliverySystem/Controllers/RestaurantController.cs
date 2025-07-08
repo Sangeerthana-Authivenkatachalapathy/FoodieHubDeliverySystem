@@ -1,6 +1,5 @@
 ﻿using FoodieHubDeliverySystem.Data;
 using FoodieHubDeliverySystem.Repository.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -60,22 +59,7 @@ namespace FoodieHubDeliverySystem.Controllers
             }
 
             _context.Entry(restaurant).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await RestaurantExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }

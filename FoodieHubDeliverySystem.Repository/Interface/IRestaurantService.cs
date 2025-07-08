@@ -9,9 +9,11 @@ namespace FoodieHubDeliverySystem.Repository.Interface
 {
     public interface IRestaurantService
     {
-        Restaurant Create(Restaurant restaurant);
-        IEnumerable<Restaurant> GetAll();
-        Restaurant GetById(int id);
-        void Delete(int  id);
+
+        Task<Restaurant> CreateAsync(Restaurant restaurant);
+        Task<IEnumerable<Restaurant>> GetAllAsync();
+        Task<Restaurant> GetByIdAsync(int id);
+        Task<Restaurant> DeleteAsync(int id);
+
     }
 }
