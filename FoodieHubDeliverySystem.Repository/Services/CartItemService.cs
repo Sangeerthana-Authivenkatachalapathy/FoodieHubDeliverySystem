@@ -1,36 +1,71 @@
-﻿using FoodieHubDeliverySystem.Repository.Interface;
+﻿using FoodieHubDeliverySystem.Data;
+using FoodieHubDeliverySystem.Repository.Interface;
 using FoodieHubDeliverySystem.Repository.Models;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FoodieHubDeliverySystem.Repository.Services
 {
     public class CartItemService : ICartItemService
     {
-        private readonly ICartItemRepository _cartItemRepository;
+        private readonly AppDbContext _context;
 
-        public CartItemService(ICartItemRepository cartItemRepository)
+        public CartItemService(AppDbContext context)
         {
-            _cartItemRepository = cartItemRepository;
+            _context = context;
         }
 
-        public Task<CartItem> AddItemAsync(CartItem item) =>
-            _cartItemRepository.AddItemAsync(item);
+        public async Task<CartItem> AddItemAsync(CartItem item)
+        {
+            item.AddedAt = DateTime.UtcNow;
+            _context.CartItems.Add(item);
+            await _context.SaveChangesAsync();
+            return item;
+        }
 
-        public Task<bool> UpdateQuantityAsync(int cartItemId, int quantity) =>
-            _cartItemRepository.UpdateQuantityAsync(cartItemId, quantity);
+        public async Task<bool> UpdateQuantityAsync(int cartItemId, int quantity)
+        {
+            var item = await _context.CartItems.FindAsync(cartItemId);
+            if (item == null) return false;
 
-        public Task<bool> RemoveItemAsync(int cartItemId) =>
-            _cartItemRepository.RemoveItemAsync(cartItemId);
+            item.Quantity = quantity;
+            item.UpdatedAt = DateTime.UtcNow;
 
-        public Task<CartItem> ApplyCouponAsync(int cartItemId, string couponCode) =>
-            _cartItemRepository.ApplyCouponAsync(cartItemId, couponCode);
+            await _context.SaveChangesAsync();
+            return true;
+        }
 
-        public Task<IEnumerable<CartItem>> GetUserCartItemsAsync(int userId) =>
-            _cartItemRepository.GetUserCartItemsAsync(userId);
+        public async Task<bool> RemoveItemAsync(int cartItemId)
+        {
+            var item = await _context.CartItems.FindAsync(cartItemId);
+            if (item == null) return false;
+
+            _context.CartItems.Remove(item);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<CartItem> ApplyCouponAsync(int cartItemId, string couponCode)
+        {
+            var item = await _context.CartItems.FindAsync(cartItemId);
+            if (item == null) return null;
+
+            item.AppliedCoupon = couponCode;
+            item.Discount = 10; // Example fixed discount
+            item.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return item;
+        }
+
+        public async Task<IEnumerable<CartItem>> GetUserCartItemsAsync(int userId)
+        {
+            return await _context.CartItems
+                .Where(ci => ci.UserId == userId && ci.IsActive)
+                .Include(ci => ci.MenuItem)
+                .ToListAsync();
+        }
     }
-
 }

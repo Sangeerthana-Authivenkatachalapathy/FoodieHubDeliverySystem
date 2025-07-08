@@ -1,12 +1,10 @@
 using FoodieHubDeliverySystem.Data;
 using FoodieHubDeliverySystem.Logic;
 using FoodieHubDeliverySystem.Repository.Interface;
-using FoodieHubDeliverySystem.Repository.Repository;
 using FoodieHubDeliverySystem.Repository.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.Text;
 
 
@@ -27,12 +25,10 @@ namespace FoodieHubDeliverySystem
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<TokenGeneration>();
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
             builder.Services.AddScoped<ICartItemService, CartItemService>();
-            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 
             builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

@@ -20,7 +20,6 @@ namespace FoodieHubDeliverySystem.Repository.Models
         [ForeignKey("User")]
         public int CustomerId { get; set; }
         [Required]
-
         [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5")]
         public string Rating { get; set; }
         [MaxLength(1000)]
@@ -31,3 +30,4 @@ namespace FoodieHubDeliverySystem.Repository.Models
 
     }
 }
+       
