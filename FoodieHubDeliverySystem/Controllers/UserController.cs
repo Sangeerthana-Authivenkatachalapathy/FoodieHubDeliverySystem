@@ -1,5 +1,7 @@
-﻿using FoodieHubDeliverySystem.Repository.Interface;
+﻿using FoodieHubDeliverySystem.Repository.DTOs;
+using FoodieHubDeliverySystem.Repository.Interface;
 using FoodieHubDeliverySystem.Repository.Models;
+using FoodieHubDeliverySystem.Repository.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,7 +46,28 @@ namespace FoodieHubDeliverySystem.Controllers
                 var success = await _service.SetDigiPinAsync(phoneNumber, digiPin);
                 return success ? Ok("DigiPin set.") : BadRequest("User not found.");
             }
-        }
+
+            [HttpGet("{id}")]
+            public async Task<IActionResult> GetUserById(Guid id)
+            {
+                var user = await _service.GetUserByIdAsync(id);
+                if (user == null)
+                return NotFound("User not found");
+
+                return Ok(user);
+            }
+
+            [HttpPut("{id}")]
+            public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserUpdateDto userDto)
+            {
+                var result = await _service.UpdateUserAsync(id, userDto);
+                if (!result)
+                return BadRequest("Update failed");
+
+                return Ok("User updated successfully");
+            }
 
     }
+
+}
 

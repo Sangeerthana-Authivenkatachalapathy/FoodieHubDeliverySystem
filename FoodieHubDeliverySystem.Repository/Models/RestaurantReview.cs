@@ -31,4 +31,3 @@ namespace FoodieHubDeliverySystem.Repository.Models
     }
 }
 
-        

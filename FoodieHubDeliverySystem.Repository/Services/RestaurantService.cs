@@ -1,6 +1,8 @@
-﻿using FoodieHubDeliverySystem.Repository.Interface;
+
+﻿using FoodieHubDeliverySystem.Data;
+using FoodieHubDeliverySystem.Repository.Interface;
 using FoodieHubDeliverySystem.Repository.Models;
-using FoodieHubDeliverySystem.Repository.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,35 +12,67 @@ namespace FoodieHubDeliverySystem.Repository.Services
 {
     public class RestaurantService : IRestaurantService
     {
-        private readonly List<Restaurant> _restaurants = new();
+        private readonly AppDbContext _context;
+
+        public RestaurantService(AppDbContext context)
+        {
+            _context = context;
+        }
 
         public async Task<Restaurant> CreateAsync(Restaurant restaurant)
         {
-            restaurant.Id = _restaurants.Count + 1;
+            restaurant.Id = _context.RestaurantDetails.Count() + 1;
             restaurant.CreatedAt = DateTime.UtcNow;
-            _restaurants.Add(restaurant);
-            return await Task.FromResult(restaurant);
+            _context.RestaurantDetails.Add(restaurant);
+            await _context.SaveChangesAsync();
+            return restaurant;
         }
 
         public async Task<IEnumerable<Restaurant>> GetAllAsync()
         {
-            return await Task.FromResult(_restaurants);
+
+            return await _context.RestaurantDetails.ToListAsync();
         }
 
         public async Task<Restaurant> GetByIdAsync(int id)
         {
-            var restaurant = _restaurants.FirstOrDefault(r => r.Id == id);
-            return await Task.FromResult(restaurant);
+            return await _context.RestaurantDetails.FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public async Task<Restaurant> DeleteAsync(int id)
+        
+
+        public async Task DeleteAsync(int id)
         {
-            var restaurant = _restaurants.FirstOrDefault(r => r.Id == id);
+            var restaurant = await _context.RestaurantDetails.FirstOrDefaultAsync(r => r.Id == id);
             if (restaurant != null)
             {
-                _restaurants.Remove(restaurant);
+                _context.RestaurantDetails.Remove(restaurant);
+                await _context.SaveChangesAsync();
             }
-            return await Task.FromResult(restaurant);
+        }
+
+        public async Task<IEnumerable<Restaurant>> GetRestaurantsByPincodeAsync(string pincode)
+        {
+            return await _context.RestaurantDetails
+                .Where(r => r.Pincode == pincode)
+                .ToListAsync();
+        }
+
+        public async Task<bool> UpdateAsync(int id, Restaurant restaurant)
+        {
+            var existing = await _context.RestaurantDetails.FindAsync(id);
+            if (existing == null)
+            {
+                return false;
+            }
+
+            existing.RestaurantName = restaurant.RestaurantName;
+            existing.Address = restaurant.Address;
+            existing.Pincode = restaurant.Pincode;
+            existing.CreatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

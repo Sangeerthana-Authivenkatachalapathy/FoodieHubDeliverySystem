@@ -1,27 +1,34 @@
-﻿using FoodieHubDeliverySystem.Repository.Interface;
+﻿using FoodieHubDeliverySystem.Data;
+using FoodieHubDeliverySystem.Repository.Interface;
 using FoodieHubDeliverySystem.Repository.Models;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FoodieHubDeliverySystem.Repository.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly AppDbContext _context;
 
-        public CategoryService(ICategoryRepository categoryRepository)
+        public CategoryService(AppDbContext context)
         {
-            _categoryRepository = categoryRepository;
+            _context = context;
         }
 
-        public Task<IEnumerable<Category>> GetAllCategoriesAsync() =>
-            _categoryRepository.GetAllCategoriesAsync();
+        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+        {
+            return await _context.Categories
+                .Include(c => c.MenuItems)
+                .ToListAsync();
+        }
 
-        public Task<IEnumerable<MenuItem>> GetMenuItemsByCategoryIdAsync(int categoryId) =>
-            _categoryRepository.GetMenuItemsByCategoryIdAsync(categoryId);
+        public async Task<IEnumerable<MenuItem>> GetMenuItemsByCategoryIdAsync(int categoryId)
+        {
+            return await _context.MenuItems
+                .Where(mi => mi.CategoryId == categoryId)
+                .ToListAsync();
+        }
     }
-
 }

@@ -1,5 +1,6 @@
 ﻿using FoodieHubDeliverySystem.DTOs;
 using FoodieHubDeliverySystem.Repository.Interface;
+using FoodieHubDeliverySystem.Repository.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,5 +53,18 @@ namespace FoodieHubDeliverySystem.Controllers
             return NoContent();
         }
 
+
+        [HttpGet("category/search/{categoryName}")]
+        public async Task<IActionResult> SearchByCategory(string categoryName)
+        {
+            var items = await _service.GetItemsByCategoryAsync(categoryName);
+            if (!items.Any()) return NotFound($"No items found for category containing '{categoryName}'");
+            return Ok(items);
+        }
+
+
+
+
     }
 }
+
