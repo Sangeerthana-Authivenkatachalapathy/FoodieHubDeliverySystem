@@ -1,5 +1,3 @@
-﻿using FoodieHubDeliverySystem.Data;
-
 using FoodieHubDeliverySystem.DTOs;
 
 using FoodieHubDeliverySystem.Repository.Interface;
@@ -150,30 +148,21 @@ namespace FoodieHubDeliverySystem.Repository.Services
 
             item.ImageUrl = dto.ImageUrl;
 
+
             item.CategoryId = dto.CategoryId;
 
             await _context.SaveChangesAsync();
 
             return new MenuItemDTO
-
             {
-
                 MenuItemId = item.MenuItemId,
-
                 Name = item.Name,
-
                 Price = item.Price,
-
                 Description = item.Description,
-
                 ImageUrl = item.ImageUrl,
-
                 CategoryId = item.CategoryId
-
             };
-
         }
-
         public async Task<bool> DeleteAsync(int id)
 
         {
@@ -214,11 +203,7 @@ namespace FoodieHubDeliverySystem.Repository.Services
                 CategoryId = item.CategoryId
             });
         }
-
     }
-
-
-
 }
 
 

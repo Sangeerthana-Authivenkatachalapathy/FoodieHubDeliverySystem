@@ -387,8 +387,6 @@ namespace FoodieHubDeliverySystem.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
-
                     b.HasIndex("RestaurantId");
 
                     b.ToTable("RestaurantReviews");
@@ -557,12 +555,6 @@ namespace FoodieHubDeliverySystem.Repository.Migrations
 
             modelBuilder.Entity("FoodieHubDeliverySystem.Repository.Models.RestaurantReview", b =>
                 {
-                    b.HasOne("FoodieHubDeliverySystem.Repository.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FoodieHubDeliverySystem.Repository.Models.Restaurant", "Restaurant")
                         .WithMany()
                         .HasForeignKey("RestaurantId")
@@ -570,8 +562,6 @@ namespace FoodieHubDeliverySystem.Repository.Migrations
                         .IsRequired();
 
                     b.Navigation("Restaurant");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FoodieHubDeliverySystem.Repository.Models.Category", b =>
