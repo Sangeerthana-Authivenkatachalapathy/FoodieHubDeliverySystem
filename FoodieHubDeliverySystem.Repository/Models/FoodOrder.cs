@@ -29,6 +29,8 @@ namespace FoodieHubDeliverySystem.Repository.Models
         [Required]
 
         public int RestaurantId { get; set; }
+        [ForeignKey("RestaurantId")]
+        public Restaurant Restaurant { get; set; }
 
         public DateTime OrderDate { get; set; } = DateTime.Now;
 

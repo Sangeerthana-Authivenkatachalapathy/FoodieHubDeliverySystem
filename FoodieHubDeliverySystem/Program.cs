@@ -20,8 +20,8 @@ namespace FoodieHubDeliverySystem
 
             // Add services to the container.
             builder.Services.AddScoped<IOrderService, OrderService>();
-            builder.Services.AddScoped<IPaymentService, PaymentService>();
-            builder.Services.AddScoped<IRazorpayService, RazorpayService>();
+            //builder.Services.AddScoped<IPaymentService, PaymentService>();
+            //builder.Services.AddScoped<IRazorpayService, RazorpayService>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -59,7 +59,9 @@ namespace FoodieHubDeliverySystem
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IMenuItemService, MenuItemService>();
             builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+            builder.Services.AddScoped<IInvoiceService, InvoiceService>();
             builder.Services.AddScoped<IRestaurantReviewService, RestaurantReviewService>();
+
             builder.Services.AddDbContext<AppDbContext>(options =>
              options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
