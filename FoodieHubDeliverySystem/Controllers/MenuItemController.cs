@@ -53,6 +53,7 @@ namespace FoodieHubDeliverySystem.Controllers
             return NoContent();
         }
 
+
         [HttpGet("category/search/{categoryName}")]
         public async Task<IActionResult> SearchByCategory(string categoryName)
         {
@@ -66,3 +67,4 @@ namespace FoodieHubDeliverySystem.Controllers
 
     }
 }
+

@@ -1,5 +1,3 @@
-﻿using FoodieHubDeliverySystem.Data;
-
 using FoodieHubDeliverySystem.DTOs;
 
 using FoodieHubDeliverySystem.Repository.Interface;
@@ -17,6 +15,7 @@ using System.Linq;
 using System.Text;
 
 using System.Threading.Tasks;
+using FoodieHubDeliverySystem.Data;
 
 namespace FoodieHubDeliverySystem.Repository.Services
 
@@ -150,30 +149,21 @@ namespace FoodieHubDeliverySystem.Repository.Services
 
             item.ImageUrl = dto.ImageUrl;
 
+
             item.CategoryId = dto.CategoryId;
 
             await _context.SaveChangesAsync();
 
             return new MenuItemDTO
-
             {
-
                 MenuItemId = item.MenuItemId,
-
                 Name = item.Name,
-
                 Price = item.Price,
-
                 Description = item.Description,
-
                 ImageUrl = item.ImageUrl,
-
                 CategoryId = item.CategoryId
-
             };
-
         }
-
         public async Task<bool> DeleteAsync(int id)
 
         {
@@ -215,10 +205,11 @@ namespace FoodieHubDeliverySystem.Repository.Services
             });
         }
 
+        Task<IEnumerable<MenuItem>> IMenuItemService.GetItemsByCategoryAsync(string categoryName)
+        {
+            throw new NotImplementedException();
+        }
     }
-
-
-
 }
 
 
