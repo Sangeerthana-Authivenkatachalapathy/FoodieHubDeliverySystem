@@ -20,13 +20,14 @@ namespace FoodieHubDeliverySystem.Repository.Models
         [ForeignKey("User")]
         public int CustomerId { get; set; }
         [Required]
-        [Range(1,5,ErrorMessage="Rating must be between 1 and 5")]
+        [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5")]
         public string Rating { get; set; }
         [MaxLength(1000)]
         public string Comment { get; set; }
-        public DateTime CreatedAt { get; set; }= DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public Restaurant Restaurant { get; set; }
-        public User User { get; set; }
+        //public User User { get; set; }
 
     }
 }
+

@@ -11,7 +11,7 @@ using System.Text;
 using FoodieHubDeliverySystem.DTOs;
 
 
-namespace FoodieHubDeliverySystem.Controllers
+namespace FoodieHubDeliverySystem.Jwt
 {
     [Route("api/[controller]")]
     [ApiController]

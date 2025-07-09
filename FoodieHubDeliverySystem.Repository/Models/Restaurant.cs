@@ -27,6 +27,7 @@ namespace FoodieHubDeliverySystem.Repository.Models
         public string Pincode { get; set; }
         [Required]
         public string? LicenseCretification { get; set; }
+        public DateTime CreatedAt { get; internal set; }
         //[ForeignKey("UserId")]
         //public User User { get; set; }
 
