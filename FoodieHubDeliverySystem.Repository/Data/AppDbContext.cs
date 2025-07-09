@@ -1,13 +1,53 @@
 ﻿using FoodieHubDeliverySystem.Repository.Models;
+<<<<<<< HEAD
+<<<<<<< HEAD
+using Microsoft.EntityFrameworkCore;
+using System.Runtime.Intrinsics.Arm;
+=======
+=======
+
+using Microsoft.EntityFrameworkCore;
+using System.Runtime.Intrinsics.Arm;
+>>>>>>> master
 using FoodieHubDeliverySystem.Repository.Models.FoodieHubDeliverySystem.Repository.Models;
 using Microsoft.EntityFrameworkCore;
+>>>>>>> master
+
 
 namespace FoodieHubDeliverySystem.Data
 {
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+<<<<<<< HEAD
+<<<<<<< HEAD
+        {
+
+        }
+
+        public DbSet<DeliveryPartner> DeliveryPartners { get; set; }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<FoodOrder> FoodOrders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+         
+        public DbSet<Address> Addresses { get; set; }
+
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            
+=======
         { }
+=======
+
+        {
+
+        
+         }
+>>>>>>> master
         public DbSet<User> Users { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -106,10 +146,21 @@ namespace FoodieHubDeliverySystem.Data
                 .WithMany(u => u.DeliveryAddresses)
                 .HasForeignKey(da => da.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
+>>>>>>> master
+
 
             modelBuilder.Entity<DeliveryPartner>()
                 .HasOne(dp => dp.User)
                 .WithMany()
+<<<<<<< HEAD
+<<<<<<< HEAD
+                .HasForeignKey(dp => dp.UserId);
+
+            base.OnModelCreating(modelBuilder);
+=======
+=======
+
+>>>>>>> master
                 .HasForeignKey(dp => dp.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
@@ -118,6 +169,7 @@ namespace FoodieHubDeliverySystem.Data
                 .WithMany(dp => dp.DeliveredOrders)
                 .HasForeignKey(o => o.DeliveryPartnerId)
                 .OnDelete(DeleteBehavior.NoAction);
+>>>>>>> master
         }
     }
 }
