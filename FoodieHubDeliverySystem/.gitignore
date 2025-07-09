@@ -1,0 +1,18 @@
+# Ignore Visual Studio temporary files, build results, and indexing
+.vs/
+*.vsidx
+FileContentIndex/
+HospitalManagementAndAppointmentSystem/FileContentIndex/
+ 
+# Ignore build folders
+bin/
+obj/
+ 
+# Ignore user-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+ 
+# Ignore other IDE-specific folders
+.vscode/
