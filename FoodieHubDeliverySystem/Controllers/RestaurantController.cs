@@ -61,6 +61,7 @@ namespace FoodieHubDeliverySystem.Controllers
         public async Task<IActionResult> UpdateRestaurant(int id, Restaurant restaurant)
         {
             if (id != restaurant?.Id)
+
                 return BadRequest("Restaurant ID mismatch.");
 
             var updated = await _restaurantService.UpdateAsync(id, restaurant);
