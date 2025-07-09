@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace FoodieHubDeliverySystem.Repository.Interface
 {
-     public interface IPaymentService
+    public interface IInvoiceService
     {
-        Task<PaymentResultDto> VerifyAndProcessPaymentAsync(PaymentVerificationRequestDto dto);
+        Task<InvoiceDto?> GetInvoiceAsync(int orderId);
     }
+
 }

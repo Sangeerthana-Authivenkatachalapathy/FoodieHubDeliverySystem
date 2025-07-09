@@ -1,3 +1,4 @@
+
 ﻿using FoodieHubDeliverySystem.Data;
 using FoodieHubDeliverySystem.Repository.Interface;
 using FoodieHubDeliverySystem.Repository.Models;
@@ -29,6 +30,7 @@ namespace FoodieHubDeliverySystem.Repository.Services
 
         public async Task<IEnumerable<Restaurant>> GetAllAsync()
         {
+
             return await _context.RestaurantDetails.ToListAsync();
         }
 
@@ -36,6 +38,8 @@ namespace FoodieHubDeliverySystem.Repository.Services
         {
             return await _context.RestaurantDetails.FirstOrDefaultAsync(r => r.Id == id);
         }
+
+        
 
         public async Task DeleteAsync(int id)
         {

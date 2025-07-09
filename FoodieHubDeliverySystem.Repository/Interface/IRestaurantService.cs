@@ -15,5 +15,6 @@ namespace FoodieHubDeliverySystem.Repository.Interface
         Task<Restaurant> GetByIdAsync(int id);
         Task<bool> UpdateAsync(int id, Restaurant restaurant);
         Task  DeleteAsync(int  id);
+
     }
 }

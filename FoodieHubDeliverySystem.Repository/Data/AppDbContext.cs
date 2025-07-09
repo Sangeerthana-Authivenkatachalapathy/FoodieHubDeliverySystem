@@ -10,10 +10,12 @@ namespace FoodieHubDeliverySystem.Data
         { }
         public DbSet<User> Users { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
-        public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<FoodOrder> FoodOrders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        
+        public DbSet<FoodOrder> FoodOrders { get; set; }
+       
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Restaurant> RestaurantDetails { get; set; }
         public DbSet<DeliveryPartner> DeliveryPartners { get; set; }
