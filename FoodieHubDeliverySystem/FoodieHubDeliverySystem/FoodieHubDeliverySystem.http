@@ -1,6 +1,0 @@
-@FoodieHubDeliverySystem_HostAddress = http://localhost:5085
-
-GET {{FoodieHubDeliverySystem_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

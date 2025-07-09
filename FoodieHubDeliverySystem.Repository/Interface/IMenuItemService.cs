@@ -1,5 +1,5 @@
 ﻿using FoodieHubDeliverySystem.DTOs;
-
+using FoodieHubDeliverySystem.Repository.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +15,8 @@ namespace FoodieHubDeliverySystem.Repository.Interface
         Task<MenuItemDTO> CreateAsync(CreateMenuItemDto dto);
         Task<MenuItemDTO> UpdateAsync(int id, CreateMenuItemDto dto);
         Task<bool> DeleteAsync(int id);
+        Task<IEnumerable<MenuItem>> GetItemsByCategoryAsync(string categoryName);
+
 
 
     }

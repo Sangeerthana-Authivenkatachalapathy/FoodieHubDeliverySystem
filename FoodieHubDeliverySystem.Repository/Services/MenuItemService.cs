@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 
 using System.Threading.Tasks;
+using FoodieHubDeliverySystem.Data;
 
 namespace FoodieHubDeliverySystem.Repository.Services
 
@@ -202,6 +203,11 @@ namespace FoodieHubDeliverySystem.Repository.Services
                 ImageUrl = item.ImageUrl,
                 CategoryId = item.CategoryId
             });
+        }
+
+        Task<IEnumerable<MenuItem>> IMenuItemService.GetItemsByCategoryAsync(string categoryName)
+        {
+            throw new NotImplementedException();
         }
     }
 }
