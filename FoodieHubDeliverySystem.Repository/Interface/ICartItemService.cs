@@ -1,8 +1,5 @@
 ﻿using FoodieHubDeliverySystem.Repository.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FoodieHubDeliverySystem.Repository.Interface
@@ -15,5 +12,4 @@ namespace FoodieHubDeliverySystem.Repository.Interface
         Task<CartItem> ApplyCouponAsync(int cartItemId, string couponCode);
         Task<IEnumerable<CartItem>> GetUserCartItemsAsync(int userId);
     }
-
 }

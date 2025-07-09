@@ -11,7 +11,6 @@ namespace FoodieHubDeliverySystem.Repository.Models
     public class OrderItem
 
     {
-
         [Key]
         public int Id { get; set; }
 
@@ -29,6 +28,7 @@ namespace FoodieHubDeliverySystem.Repository.Models
 
         [Required]
         public decimal Price { get; set; }
+
         public MenuItem MenuItem { get; set; }
 
     }
