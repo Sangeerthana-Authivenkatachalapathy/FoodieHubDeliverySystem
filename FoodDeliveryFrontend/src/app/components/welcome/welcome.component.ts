@@ -34,6 +34,12 @@ import { CommonModule } from '@angular/common';
               <span>Delivery Partner</span>
               <p>Deliver orders & earn</p>
             </button>
+            
+            <button class="role-btn admin-btn" (click)="selectRole('admin')">
+              <i class="fas fa-user-shield"></i>
+              <span>Admin</span>
+              <p>Manage platform operations</p>
+            </button>
           </div>
         </div>
       </div>
@@ -133,6 +139,10 @@ import { CommonModule } from '@angular/common';
       border-top: 4px solid #26de81;
     }
 
+    .admin-btn:hover {
+      border-top: 4px solid #8b5cf6;
+    }
+
     .role-btn i {
       font-size: 3rem;
       margin-bottom: 20px;
@@ -149,6 +159,10 @@ import { CommonModule } from '@angular/common';
 
     .delivery-btn i {
       color: #26de81;
+    }
+
+    .admin-btn i {
+      color: #8b5cf6;
     }
 
     .role-btn span {
@@ -203,6 +217,9 @@ export class WelcomeComponent {
         break;
       case 'delivery':
         this.router.navigate(['/delivery']);
+        break;
+      case 'admin':
+        this.router.navigate(['/admin']);
         break;
     }
   }
