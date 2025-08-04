@@ -1,0 +1,26 @@
+<mat-card [class]="getCardClass()" [class.clickable]="clickable">
+  <mat-card-content class="stats-card-content">
+    <!-- Icon and value section -->
+    <div class="stats-header">
+      <div class="stats-icon">
+        <mat-icon>{{ icon }}</mat-icon>
+      </div>
+      <div class="stats-value">
+        {{ value }}
+      </div>
+    </div>
+
+    <!-- Title and subtitle -->
+    <div class="stats-info">
+      <div class="stats-title">{{ title }}</div>
+      <div *ngIf="subtitle" class="stats-subtitle">{{ subtitle }}</div>
+    </div>
+
+    <!-- Trend indicator -->
+    <div *ngIf="trend" [class]="getTrendClass()">
+      <mat-icon class="trend-icon">{{ getTrendIcon() }}</mat-icon>
+      <span class="trend-value">{{ trend.value }}%</span>
+      <span class="trend-label">{{ trend.label }}</span>
+    </div>
+  </mat-card-content>
+</mat-card>
