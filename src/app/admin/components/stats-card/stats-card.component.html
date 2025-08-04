@@ -1,0 +1,18 @@
+<div [class]="cardClass">
+  <div class="stats-card__header">
+    <div class="stats-card__icon">
+      <span class="material-icons">{{ icon }}</span>
+    </div>
+    <div class="stats-card__trend" *ngIf="trend" [class]="trendClass">
+      <span class="material-icons trend-icon">
+        {{ trend.direction === 'up' ? 'trending_up' : 'trending_down' }}
+      </span>
+      <span class="trend-value">{{ trend.value }}%</span>
+    </div>
+  </div>
+  
+  <div class="stats-card__content">
+    <h3 class="stats-card__value">{{ value }}</h3>
+    <p class="stats-card__title">{{ title }}</p>
+  </div>
+</div>

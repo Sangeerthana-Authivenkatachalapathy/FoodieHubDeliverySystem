@@ -1,0 +1,87 @@
+<div class="feedback-container">
+  <div class="feedback-header">
+    <h1>Customer Feedback</h1>
+    <p>Monitor and respond to customer feedback</p>
+  </div>
+
+  <div class="feedback-filters">
+    <div class="filter-group">
+      <label for="rating-filter">Filter by Rating:</label>
+      <select 
+        id="rating-filter" 
+        [(ngModel)]="selectedRating" 
+        (change)="onRatingChange()"
+        class="filter-select">
+        <option *ngFor="let option of ratingOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="status-filter">Filter by Status:</label>
+      <select 
+        id="status-filter" 
+        [(ngModel)]="selectedStatus" 
+        (change)="onStatusChange()"
+        class="filter-select">
+        <option *ngFor="let option of statusOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="loading">
+    <div class="loading-spinner"></div>
+    <p>Loading feedback...</p>
+  </div>
+
+  <div class="feedback-grid" *ngIf="!loading">
+    <div class="feedback-card" *ngFor="let feedback of filteredFeedbacks">
+      <div class="feedback-header-card">
+        <div class="customer-info">
+          <h3>{{ feedback.customerName }}</h3>
+          <p>Order: {{ feedback.orderId }} | {{ feedback.restaurant }}</p>
+        </div>
+        <div class="feedback-status">
+          <select 
+            [value]="feedback.status" 
+            (change)="updateFeedbackStatus(feedback.id, $any($event.target).value)"
+            class="status-select">
+            <option value="New">New</option>
+            <option value="Reviewed">Reviewed</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="rating-display">
+        <div class="stars">
+          <span 
+            *ngFor="let star of getStarArray(feedback.rating)"
+            class="star"
+            [class.filled]="star <= feedback.rating">
+            ★
+          </span>
+        </div>
+        <span class="rating-text">{{ feedback.rating }}/5</span>
+      </div>
+
+      <div class="feedback-comment">
+        <p>{{ feedback.comment }}</p>
+      </div>
+
+      <div class="feedback-footer">
+        <span class="feedback-date">{{ feedback.date | date:'medium' }}</span>
+        <span class="feedback-status-badge" [class]="'status-' + feedback.status.toLowerCase()">
+          {{ feedback.status }}
+        </span>
+      </div>
+    </div>
+
+    <div class="no-feedback" *ngIf="filteredFeedbacks.length === 0">
+      <p>No feedback found matching your criteria.</p>
+    </div>
+  </div>
+</div>

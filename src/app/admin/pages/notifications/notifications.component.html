@@ -1,0 +1,103 @@
+<div class="notifications-container">
+  <div class="notifications-header">
+    <div class="header-content">
+      <h1>Notifications</h1>
+      <p>Manage system and application notifications</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-action" (click)="markAllAsRead()">Mark All as Read</button>
+      <button class="btn-action secondary" (click)="dismissAll()">Dismiss All</button>
+    </div>
+  </div>
+
+  <div class="notifications-filters">
+    <div class="filter-group">
+      <label for="type-filter">Filter by Type:</label>
+      <select 
+        id="type-filter" 
+        [(ngModel)]="selectedType" 
+        (change)="onTypeChange()"
+        class="filter-select">
+        <option *ngFor="let option of typeOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="priority-filter">Filter by Priority:</label>
+      <select 
+        id="priority-filter" 
+        [(ngModel)]="selectedPriority" 
+        (change)="onPriorityChange()"
+        class="filter-select">
+        <option *ngFor="let option of priorityOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="status-filter">Filter by Status:</label>
+      <select 
+        id="status-filter" 
+        [(ngModel)]="selectedStatus" 
+        (change)="onStatusChange()"
+        class="filter-select">
+        <option *ngFor="let option of statusOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="loading">
+    <div class="loading-spinner"></div>
+    <p>Loading notifications...</p>
+  </div>
+
+  <div class="notifications-list" *ngIf="!loading">
+    <div 
+      class="notification-item" 
+      *ngFor="let notification of filteredNotifications"
+      [class.unread]="notification.status === 'New'"
+      [class.dismissed]="notification.status === 'Dismissed'">
+      
+      <div class="notification-header">
+        <div class="notification-meta">
+          <span class="type-badge" [class]="'type-' + notification.type.toLowerCase()">
+            {{ notification.type }}
+          </span>
+          <span class="priority-badge" [class]="'priority-' + notification.priority.toLowerCase()">
+            {{ notification.priority }}
+          </span>
+          <span class="timestamp">{{ notification.timestamp | date:'medium' }}</span>
+        </div>
+        <div class="notification-status">
+          <select 
+            [value]="notification.status" 
+            (change)="updateNotificationStatus(notification.id, $any($event.target).value)"
+            class="status-select">
+            <option value="New">New</option>
+            <option value="Read">Read</option>
+            <option value="Dismissed">Dismissed</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="notification-content">
+        <h3>{{ notification.title }}</h3>
+        <p>{{ notification.message }}</p>
+        <div class="notification-recipient" *ngIf="notification.recipient">
+          <span class="label">Recipient:</span>
+          <span class="value">{{ notification.recipient }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="no-notifications" *ngIf="filteredNotifications.length === 0">
+      <span class="material-icons">notifications_none</span>
+      <p>No notifications found matching your criteria.</p>
+    </div>
+  </div>
+</div>

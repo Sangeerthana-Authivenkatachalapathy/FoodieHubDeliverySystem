@@ -1,0 +1,92 @@
+<div class="orders-container">
+  <div class="orders-header">
+    <h1>Orders Management</h1>
+    <p>Monitor and manage all orders</p>
+  </div>
+
+  <div class="orders-filters">
+    <div class="filter-group">
+      <label for="status-filter">Filter by Status:</label>
+      <select 
+        id="status-filter" 
+        [(ngModel)]="selectedStatus" 
+        (change)="onStatusChange()"
+        class="filter-select">
+        <option *ngFor="let option of statusOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="search-group">
+      <input 
+        type="text" 
+        placeholder="Search orders..." 
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        class="search-input">
+      <span class="material-icons search-icon">search</span>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="loading">
+    <div class="loading-spinner"></div>
+    <p>Loading orders...</p>
+  </div>
+
+  <div class="orders-table-container" *ngIf="!loading">
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Restaurant</th>
+          <th>Items</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Order Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of filteredOrders">
+          <td>{{ order.id }}</td>
+          <td>{{ order.customerName }}</td>
+          <td>{{ order.restaurant }}</td>
+          <td>
+            <div class="items-list">
+              <span *ngFor="let item of order.items; let last = last">
+                {{ item }}<span *ngIf="!last">, </span>
+              </span>
+            </div>
+          </td>
+          <td>${{ order.amount }}</td>
+          <td>
+            <span class="status-badge" [class]="'status-' + order.status.toLowerCase().replace(' ', '-')">
+              {{ order.status }}
+            </span>
+          </td>
+          <td>{{ order.orderTime | date:'short' }}</td>
+          <td>
+            <div class="actions">
+              <select 
+                [value]="order.status" 
+                (change)="updateOrderStatus(order.id, $any($event.target).value)"
+                class="status-select">
+                <option value="Pending">Pending</option>
+                <option value="Preparing">Preparing</option>
+                <option value="Out for Delivery">Out for Delivery</option>
+                <option value="Delivered">Delivered</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="no-orders" *ngIf="filteredOrders.length === 0">
+      <p>No orders found matching your criteria.</p>
+    </div>
+  </div>
+</div>
