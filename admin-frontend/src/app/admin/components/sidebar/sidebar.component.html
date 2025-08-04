@@ -1,0 +1,36 @@
+<div class="sidebar">
+  <div class="sidebar-content">
+    <!-- Logo section -->
+    <div class="logo-section">
+      <mat-icon class="logo-icon">restaurant_menu</mat-icon>
+      <span class="logo-text">Admin Panel</span>
+    </div>
+
+    <!-- Navigation menu -->
+    <nav class="navigation">
+      <div *ngFor="let group of menuGroups" class="menu-group">
+        <div class="group-header">{{ group.name }}</div>
+        
+        <mat-list class="menu-list">
+          <mat-list-item 
+            *ngFor="let item of group.items"
+            class="menu-item"
+            [class.active]="isActive(item.route)"
+            (click)="navigateTo(item.route)">
+            
+            <mat-icon matListIcon>{{ item.icon }}</mat-icon>
+            <div matLine>{{ item.name }}</div>
+            
+            <!-- Badge for notifications count -->
+            <mat-chip 
+              *ngIf="item.badge && item.badge > 0" 
+              class="menu-badge"
+              color="warn">
+              {{ item.badge }}
+            </mat-chip>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </nav>
+  </div>
+</div>

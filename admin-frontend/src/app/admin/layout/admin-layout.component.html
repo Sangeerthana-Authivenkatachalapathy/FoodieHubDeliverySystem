@@ -1,0 +1,23 @@
+<div class="admin-layout">
+  <!-- Top navigation bar -->
+  <app-navbar (toggleSidebar)="onToggleSidebar()"></app-navbar>
+
+  <!-- Sidenav container -->
+  <mat-sidenav-container class="sidenav-container">
+    <!-- Sidebar -->
+    <mat-sidenav 
+      #sidenav 
+      mode="side" 
+      [opened]="sidenavOpened"
+      class="admin-sidenav">
+      <app-sidebar></app-sidebar>
+    </mat-sidenav>
+
+    <!-- Main content area -->
+    <mat-sidenav-content class="main-content">
+      <div class="content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
