@@ -1,0 +1,22 @@
+<aside class="admin-sidebar">
+  <div class="sidebar-content">
+    <nav class="sidebar-nav">
+      <ul class="nav-list">
+        <li 
+          *ngFor="let item of menuItems" 
+          class="nav-item"
+          [class.active]="isActive(item.route)"
+        >
+          <a 
+            class="nav-link" 
+            (click)="navigateTo(item.route)"
+            [class.active]="isActive(item.route)"
+          >
+            <span class="material-icons nav-icon">{{ item.icon }}</span>
+            <span class="nav-label">{{ item.label }}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</aside>

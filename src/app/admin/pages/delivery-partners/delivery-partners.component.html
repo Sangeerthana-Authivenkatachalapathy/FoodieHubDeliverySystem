@@ -1,0 +1,116 @@
+<div class="partners-container">
+  <div class="partners-header">
+    <h1>Delivery Partners</h1>
+    <p>Manage delivery partners and their status</p>
+  </div>
+
+  <div class="partners-filters">
+    <div class="filter-group">
+      <label for="status-filter">Filter by Status:</label>
+      <select 
+        id="status-filter" 
+        [(ngModel)]="selectedStatus" 
+        (change)="onStatusChange()"
+        class="filter-select">
+        <option *ngFor="let option of statusOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="zone-filter">Filter by Zone:</label>
+      <select 
+        id="zone-filter" 
+        [(ngModel)]="selectedZone" 
+        (change)="onZoneChange()"
+        class="filter-select">
+        <option *ngFor="let option of zoneOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="search-group">
+      <input 
+        type="text" 
+        placeholder="Search partners..." 
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        class="search-input">
+      <span class="material-icons search-icon">search</span>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="loading">
+    <div class="loading-spinner"></div>
+    <p>Loading delivery partners...</p>
+  </div>
+
+  <div class="partners-grid" *ngIf="!loading">
+    <div class="partner-card" *ngFor="let partner of filteredPartners">
+      <div class="partner-header">
+        <div class="partner-avatar">
+          <span class="material-icons">person</span>
+        </div>
+        <div class="partner-info">
+          <h3>{{ partner.name }}</h3>
+          <p>{{ partner.email }}</p>
+          <p>{{ partner.phone }}</p>
+        </div>
+        <div class="partner-status">
+          <span class="status-badge" [class]="'status-' + partner.status.toLowerCase().replace(' ', '-')">
+            {{ partner.status }}
+          </span>
+        </div>
+      </div>
+
+      <div class="partner-details">
+        <div class="detail-item">
+          <span class="label">Vehicle:</span>
+          <span class="value">{{ partner.vehicle }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Zone:</span>
+          <span class="value">{{ partner.zone }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Total Deliveries:</span>
+          <span class="value">{{ partner.totalDeliveries }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Join Date:</span>
+          <span class="value">{{ partner.joinDate | date:'mediumDate' }}</span>
+        </div>
+      </div>
+
+      <div class="partner-rating">
+        <div class="stars">
+          <span 
+            *ngFor="let star of getStarArray(partner.rating)"
+            class="star"
+            [class.filled]="star <= partner.rating">
+            ★
+          </span>
+        </div>
+        <span class="rating-text">{{ partner.rating }}/5</span>
+      </div>
+
+      <div class="partner-actions">
+        <select 
+          [value]="partner.status" 
+          (change)="updatePartnerStatus(partner.id, $any($event.target).value)"
+          class="status-select">
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+          <option value="On Delivery">On Delivery</option>
+          <option value="Offline">Offline</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="no-partners" *ngIf="filteredPartners.length === 0">
+      <p>No delivery partners found matching your criteria.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<nav class="admin-navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <h2>FoodieHub Admin</h2>
+    </div>
+    
+    <div class="navbar-menu">
+      <div class="navbar-user">
+        <span class="user-name">{{ userProfile.name }}</span>
+        <span class="user-role">{{ userProfile.role }}</span>
+        <div class="user-actions">
+          <button class="btn-profile" (click)="onProfile()">Profile</button>
+          <button class="btn-logout" (click)="onLogout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

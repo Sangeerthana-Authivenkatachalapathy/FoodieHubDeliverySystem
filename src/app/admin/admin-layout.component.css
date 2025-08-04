@@ -1,0 +1,16 @@
+.admin-layout {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.admin-content {
+  margin-left: 250px;
+  padding-top: 80px; /* Account for fixed navbar */
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .admin-content {
+    margin-left: 60px;
+  }
+}

@@ -1,0 +1,112 @@
+<div class="restaurants-container">
+  <div class="restaurants-header">
+    <h1>Restaurant Management</h1>
+    <p>Manage restaurant partners and their status</p>
+  </div>
+
+  <div class="restaurants-filters">
+    <div class="filter-group">
+      <label for="status-filter">Filter by Status:</label>
+      <select 
+        id="status-filter" 
+        [(ngModel)]="selectedStatus" 
+        (change)="onStatusChange()"
+        class="filter-select">
+        <option *ngFor="let option of statusOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="cuisine-filter">Filter by Cuisine:</label>
+      <select 
+        id="cuisine-filter" 
+        [(ngModel)]="selectedCuisine" 
+        (change)="onCuisineChange()"
+        class="filter-select">
+        <option *ngFor="let option of cuisineOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="search-group">
+      <input 
+        type="text" 
+        placeholder="Search restaurants..." 
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        class="search-input">
+      <span class="material-icons search-icon">search</span>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="loading">
+    <div class="loading-spinner"></div>
+    <p>Loading restaurants...</p>
+  </div>
+
+  <div class="restaurants-grid" *ngIf="!loading">
+    <div class="restaurant-card" *ngFor="let restaurant of filteredRestaurants">
+      <div class="restaurant-header">
+        <div class="restaurant-avatar">
+          <span class="material-icons">restaurant</span>
+        </div>
+        <div class="restaurant-info">
+          <h3>{{ restaurant.name }}</h3>
+          <p>{{ restaurant.cuisine }}</p>
+          <p>{{ restaurant.email }}</p>
+          <p>{{ restaurant.phone }}</p>
+        </div>
+        <div class="restaurant-status">
+          <span class="status-badge" [class]="'status-' + restaurant.status.toLowerCase()">
+            {{ restaurant.status }}
+          </span>
+        </div>
+      </div>
+
+      <div class="restaurant-details">
+        <div class="detail-item">
+          <span class="label">Address:</span>
+          <span class="value">{{ restaurant.address }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Total Orders:</span>
+          <span class="value">{{ restaurant.totalOrders }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Join Date:</span>
+          <span class="value">{{ restaurant.joinDate | date:'mediumDate' }}</span>
+        </div>
+      </div>
+
+      <div class="restaurant-rating">
+        <div class="stars">
+          <span 
+            *ngFor="let star of getStarArray(restaurant.rating)"
+            class="star"
+            [class.filled]="star <= restaurant.rating">
+            ★
+          </span>
+        </div>
+        <span class="rating-text">{{ restaurant.rating }}/5</span>
+      </div>
+
+      <div class="restaurant-actions">
+        <select 
+          [value]="restaurant.status" 
+          (change)="updateRestaurantStatus(restaurant.id, $any($event.target).value)"
+          class="status-select">
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+          <option value="Suspended">Suspended</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="no-restaurants" *ngIf="filteredRestaurants.length === 0">
+      <p>No restaurants found matching your criteria.</p>
+    </div>
+  </div>
+</div>
