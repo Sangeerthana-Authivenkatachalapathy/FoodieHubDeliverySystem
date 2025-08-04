@@ -27,6 +27,7 @@ namespace FoodieHubDeliverySystem
             builder.Services.AddScoped<ICartItemService, CartItemService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+            builder.Services.AddScoped<IAdminService, AdminService>();
 
             builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
