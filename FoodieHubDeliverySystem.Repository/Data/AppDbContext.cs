@@ -1,65 +1,33 @@
-﻿using FoodieHubDeliverySystem.Repository.Models;
-<<<<<<< HEAD
-<<<<<<< HEAD
-using Microsoft.EntityFrameworkCore;
-using System.Runtime.Intrinsics.Arm;
-=======
-=======
-
-using Microsoft.EntityFrameworkCore;
-using System.Runtime.Intrinsics.Arm;
->>>>>>> master
+using FoodieHubDeliverySystem.Repository.Models;
 using FoodieHubDeliverySystem.Repository.Models.FoodieHubDeliverySystem.Repository.Models;
 using Microsoft.EntityFrameworkCore;
->>>>>>> master
-
 
 namespace FoodieHubDeliverySystem.Data
 {
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-<<<<<<< HEAD
-<<<<<<< HEAD
         {
-
         }
 
-        public DbSet<DeliveryPartner> DeliveryPartners { get; set; }
-
-        public DbSet<User> Users { get; set; }
-        public DbSet<FoodOrder> FoodOrders { get; set; }
-        public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<Payment> Payments { get; set; }
-         
-        public DbSet<Address> Addresses { get; set; }
-
-
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            
-=======
-        { }
-=======
-
-        {
-
-        
-         }
->>>>>>> master
+        // Existing DbSets
         public DbSet<User> Users { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
-        
         public DbSet<FoodOrder> FoodOrders { get; set; }
-       
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Restaurant> RestaurantDetails { get; set; }
         public DbSet<DeliveryPartner> DeliveryPartners { get; set; }
         public DbSet<RestaurantReview> RestaurantReviews { get; set; }
+        public DbSet<DeliveryAddress> DeliveryAddresses { get; set; }
+
+        // New Admin DbSets
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<AdminAuditLog> AdminAuditLogs { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -116,8 +84,8 @@ namespace FoodieHubDeliverySystem.Data
             // FoodOrder ↔ Payment
             modelBuilder.Entity<FoodOrder>()
                 .HasOne(o => o.Payment)
-                .WithMany()
-                .HasForeignKey(o => o.PaymentId)
+                .WithOne()
+                .HasForeignKey<FoodOrder>(o => o.PaymentId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             // FoodOrder ↔ DeliveryPartner
@@ -127,13 +95,6 @@ namespace FoodieHubDeliverySystem.Data
                 .HasForeignKey(o => o.DeliveryPartnerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // FoodOrder ↔ Payment
-            modelBuilder.Entity<FoodOrder>()
-                .HasOne(o => o.Payment)
-                .WithOne()
-                .HasForeignKey<FoodOrder>(o => o.PaymentId)
-                .OnDelete(DeleteBehavior.NoAction);
-
             // OrderItem ↔ MenuItem
             modelBuilder.Entity<OrderItem>()
                 .HasOne(oi => oi.MenuItem)
@@ -141,35 +102,63 @@ namespace FoodieHubDeliverySystem.Data
                 .HasForeignKey(oi => oi.MenuItemId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            // DeliveryAddress ↔ User
             modelBuilder.Entity<DeliveryAddress>()
                 .HasOne(da => da.User)
                 .WithMany(u => u.DeliveryAddresses)
                 .HasForeignKey(da => da.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
->>>>>>> master
 
-
+            // DeliveryPartner ↔ User
             modelBuilder.Entity<DeliveryPartner>()
                 .HasOne(dp => dp.User)
                 .WithMany()
-<<<<<<< HEAD
-<<<<<<< HEAD
-                .HasForeignKey(dp => dp.UserId);
-
-            base.OnModelCreating(modelBuilder);
-=======
-=======
-
->>>>>>> master
                 .HasForeignKey(dp => dp.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<FoodOrder>()
-                .HasOne(o => o.DeliveryPartner)
-                .WithMany(dp => dp.DeliveredOrders)
-                .HasForeignKey(o => o.DeliveryPartnerId)
+            // New Admin Model Configurations
+
+            // Notification ↔ User
+            modelBuilder.Entity<Notification>()
+                .HasOne(n => n.User)
+                .WithMany()
+                .HasForeignKey(n => n.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
->>>>>>> master
+
+            // Feedback ↔ User
+            modelBuilder.Entity<Feedback>()
+                .HasOne(f => f.User)
+                .WithMany()
+                .HasForeignKey(f => f.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Feedback ↔ Order
+            modelBuilder.Entity<Feedback>()
+                .HasOne(f => f.Order)
+                .WithMany()
+                .HasForeignKey(f => f.OrderId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Feedback ↔ Restaurant
+            modelBuilder.Entity<Feedback>()
+                .HasOne(f => f.Restaurant)
+                .WithMany()
+                .HasForeignKey(f => f.RestaurantId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Feedback ↔ RespondedByAdmin
+            modelBuilder.Entity<Feedback>()
+                .HasOne(f => f.RespondedByAdmin)
+                .WithMany()
+                .HasForeignKey(f => f.RespondedByAdminId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // AdminAuditLog ↔ AdminUser
+            modelBuilder.Entity<AdminAuditLog>()
+                .HasOne(a => a.AdminUser)
+                .WithMany()
+                .HasForeignKey(a => a.AdminUserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
