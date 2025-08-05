@@ -1,0 +1,319 @@
+<div class="restaurant-details-container" *ngIf="!loading && restaurant">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <button mat-icon-button (click)="goBack()" class="back-btn">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <div class="title-section">
+          <h1>{{ restaurant.name }}</h1>
+          <div class="status-badge" [style.color]="getStatusColor(restaurant.status)">
+            <mat-icon>{{ getStatusIcon(restaurant.status) }}</mat-icon>
+            {{ restaurant.status | titlecase }}
+          </div>
+        </div>
+      </div>
+      
+      <div class="header-actions" *ngIf="restaurant.status === 'pending'">
+        <button 
+          mat-raised-button 
+          color="primary"
+          (click)="approveRestaurant()"
+          class="approve-btn">
+          <mat-icon>check</mat-icon>
+          Approve
+        </button>
+        <button 
+          mat-raised-button 
+          color="warn"
+          (click)="rejectRestaurant()"
+          class="reject-btn">
+          <mat-icon>close</mat-icon>
+          Reject
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="page-content">
+    <div class="details-grid">
+      
+      <!-- Basic Information -->
+      <div class="info-card">
+        <div class="card-header">
+          <mat-icon>info</mat-icon>
+          <h2>Basic Information</h2>
+        </div>
+        <div class="card-content">
+          <div class="info-row">
+            <label>Restaurant Name:</label>
+            <span>{{ restaurant.name }}</span>
+          </div>
+          <div class="info-row">
+            <label>Email:</label>
+            <span>{{ restaurant.email }}</span>
+          </div>
+          <div class="info-row">
+            <label>Phone:</label>
+            <span>{{ restaurant.phone }}</span>
+          </div>
+          <div class="info-row">
+            <label>Website:</label>
+            <span *ngIf="restaurant.website">
+              <a [href]="restaurant.website" target="_blank">{{ restaurant.website }}</a>
+            </span>
+            <span *ngIf="!restaurant.website" class="no-data">Not provided</span>
+          </div>
+          <div class="info-row">
+            <label>Description:</label>
+            <span class="description">{{ restaurant.description }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Location Information -->
+      <div class="info-card">
+        <div class="card-header">
+          <mat-icon>location_on</mat-icon>
+          <h2>Location</h2>
+        </div>
+        <div class="card-content">
+          <div class="info-row">
+            <label>Street:</label>
+            <span>{{ restaurant.address.street }}</span>
+          </div>
+          <div class="info-row">
+            <label>City:</label>
+            <span>{{ restaurant.address.city }}</span>
+          </div>
+          <div class="info-row">
+            <label>State:</label>
+            <span>{{ restaurant.address.state }}</span>
+          </div>
+          <div class="info-row">
+            <label>ZIP Code:</label>
+            <span>{{ restaurant.address.zipCode }}</span>
+          </div>
+          <div class="info-row">
+            <label>Country:</label>
+            <span>{{ restaurant.address.country }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cuisine Information -->
+      <div class="info-card">
+        <div class="card-header">
+          <mat-icon>restaurant_menu</mat-icon>
+          <h2>Cuisine Types</h2>
+        </div>
+        <div class="card-content">
+          <div class="cuisine-chips">
+            <mat-chip-listbox>
+              <mat-chip *ngFor="let cuisine of restaurant.cuisine">
+                {{ cuisine }}
+              </mat-chip>
+            </mat-chip-listbox>
+          </div>
+        </div>
+      </div>
+
+      <!-- Operating Hours -->
+      <div class="info-card full-width">
+        <div class="card-header">
+          <mat-icon>schedule</mat-icon>
+          <h2>Operating Hours</h2>
+        </div>
+        <div class="card-content">
+          <div class="hours-grid">
+            <div class="hour-item" *ngFor="let day of ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']">
+              <label>{{ day | titlecase }}:</label>
+              <span>{{ formatOperatingHours(restaurant.operatingHours[day]) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Application Data -->
+      <div class="info-card">
+        <div class="card-header">
+          <mat-icon>person</mat-icon>
+          <h2>Owner Information</h2>
+        </div>
+        <div class="card-content">
+          <div class="info-row">
+            <label>Owner Name:</label>
+            <span>{{ restaurant.applicationData.ownerName }}</span>
+          </div>
+          <div class="info-row">
+            <label>Owner Phone:</label>
+            <span>{{ restaurant.applicationData.ownerPhone }}</span>
+          </div>
+          <div class="info-row">
+            <label>Owner Email:</label>
+            <span>{{ restaurant.applicationData.ownerEmail }}</span>
+          </div>
+          <div class="info-row">
+            <label>Estimated Capacity:</label>
+            <span>{{ restaurant.applicationData.estimatedCapacity }} people</span>
+          </div>
+          <div class="info-row">
+            <label>Delivery Radius:</label>
+            <span>{{ restaurant.applicationData.deliveryRadius }} miles</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Special Features -->
+      <div class="info-card">
+        <div class="card-header">
+          <mat-icon>star</mat-icon>
+          <h2>Special Features</h2>
+        </div>
+        <div class="card-content">
+          <div class="features-list" *ngIf="restaurant.applicationData.specialFeatures.length > 0">
+            <mat-chip-listbox>
+              <mat-chip *ngFor="let feature of restaurant.applicationData.specialFeatures">
+                {{ feature }}
+              </mat-chip>
+            </mat-chip-listbox>
+          </div>
+          <p *ngIf="restaurant.applicationData.specialFeatures.length === 0" class="no-data">
+            No special features listed
+          </p>
+        </div>
+      </div>
+
+      <!-- Images Gallery -->
+      <div class="info-card full-width">
+        <div class="card-header">
+          <mat-icon>photo_library</mat-icon>
+          <h2>Restaurant Images</h2>
+        </div>
+        <div class="card-content">
+          <div class="image-gallery" *ngIf="restaurant.images.length > 0">
+            <div class="main-image">
+              <img 
+                [src]="restaurant.images[selectedImageIndex]" 
+                [alt]="restaurant.name"
+                (error)="$event.target.src='assets/restaurant-placeholder.png'">
+            </div>
+            <div class="image-thumbnails" *ngIf="restaurant.images.length > 1">
+              <div 
+                class="thumbnail"
+                [class.active]="i === selectedImageIndex"
+                *ngFor="let image of restaurant.images; let i = index"
+                (click)="selectImage(i)">
+                <img 
+                  [src]="image" 
+                  [alt]="restaurant.name + ' - Image ' + (i + 1)"
+                  (error)="$event.target.src='assets/restaurant-placeholder.png'">
+              </div>
+            </div>
+          </div>
+          <p *ngIf="restaurant.images.length === 0" class="no-data">
+            No images available
+          </p>
+        </div>
+      </div>
+
+      <!-- Documents -->
+      <div class="info-card full-width">
+        <div class="card-header">
+          <mat-icon>description</mat-icon>
+          <h2>Required Documents</h2>
+        </div>
+        <div class="card-content">
+          <div class="documents-grid">
+            <div class="document-item">
+              <mat-icon>description</mat-icon>
+              <div class="document-info">
+                <span class="document-name">Business License</span>
+                <button 
+                  mat-button 
+                  color="primary"
+                  (click)="downloadDocument('businessLicense')">
+                  <mat-icon>download</mat-icon>
+                  Download
+                </button>
+              </div>
+            </div>
+            
+            <div class="document-item">
+              <mat-icon>health_and_safety</mat-icon>
+              <div class="document-info">
+                <span class="document-name">Food Safety License</span>
+                <button 
+                  mat-button 
+                  color="primary"
+                  (click)="downloadDocument('foodSafetyLicense')">
+                  <mat-icon>download</mat-icon>
+                  Download
+                </button>
+              </div>
+            </div>
+            
+            <div class="document-item">
+              <mat-icon>shield</mat-icon>
+              <div class="document-info">
+                <span class="document-name">Insurance Certificate</span>
+                <button 
+                  mat-button 
+                  color="primary"
+                  (click)="downloadDocument('insuranceCertificate')">
+                  <mat-icon>download</mat-icon>
+                  Download
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Application Timeline -->
+      <div class="info-card full-width">
+        <div class="card-header">
+          <mat-icon>timeline</mat-icon>
+          <h2>Application Timeline</h2>
+        </div>
+        <div class="card-content">
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-icon submitted">
+                <mat-icon>send</mat-icon>
+              </div>
+              <div class="timeline-content">
+                <h3>Application Submitted</h3>
+                <p>{{ restaurant.submittedAt | date:'full' }}</p>
+              </div>
+            </div>
+            
+            <div class="timeline-item" *ngIf="restaurant.reviewedAt">
+              <div class="timeline-icon" [class]="restaurant.status">
+                <mat-icon>{{ getStatusIcon(restaurant.status) }}</mat-icon>
+              </div>
+              <div class="timeline-content">
+                <h3>Application {{ restaurant.status | titlecase }}</h3>
+                <p>{{ restaurant.reviewedAt | date:'full' }}</p>
+                <p *ngIf="restaurant.reviewedBy">Reviewed by: {{ restaurant.reviewedBy.name }}</p>
+                <p *ngIf="restaurant.rejectionReason" class="rejection-reason">
+                  Reason: {{ restaurant.rejectionReason }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Loading State -->
+<app-loading-spinner 
+  *ngIf="loading" 
+  [size]="50" 
+  message="Loading restaurant details...">
+</app-loading-spinner>

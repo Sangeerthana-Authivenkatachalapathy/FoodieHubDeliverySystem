@@ -1,0 +1,49 @@
+.toast-notification {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  min-width: 300px;
+}
+
+.toast-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.toast-message {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.toast-action {
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+}
+
+.toast-action mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Toast type styles */
+.toast-success .toast-icon {
+  color: #4caf50;
+}
+
+.toast-error .toast-icon {
+  color: #f44336;
+}
+
+.toast-warning .toast-icon {
+  color: #ff9800;
+}
+
+.toast-info .toast-icon {
+  color: #2196f3;
+}
