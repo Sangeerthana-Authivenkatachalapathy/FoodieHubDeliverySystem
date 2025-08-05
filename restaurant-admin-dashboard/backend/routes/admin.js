@@ -1,7 +1,7 @@
-const express = require('express');
-const { body, query, validationResult } = require('express-validator');
-const Restaurant = require('../models/Restaurant');
-const { auth, checkPermission, isAdmin } = require('../middleware/auth');
+import express from 'express';
+import { body, query, validationResult } from 'express-validator';
+import Restaurant from '../models/Restaurant.js';
+import { auth, checkPermission, isAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -496,4 +496,4 @@ router.delete('/restaurants/:id', checkPermission('delete_restaurants'), async (
   }
 });
 
-module.exports = router;
+export default router;

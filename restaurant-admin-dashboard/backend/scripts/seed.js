@@ -1,9 +1,12 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-require('dotenv').config();
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import { config } from 'dotenv';
 
-const User = require('../models/User');
-const Restaurant = require('../models/Restaurant');
+import User from '../models/User.js';
+import Restaurant from '../models/Restaurant.js';
+
+// Load environment variables
+config();
 
 // Sample data
 const sampleUsers = [
@@ -253,8 +256,8 @@ async function seedDatabase() {
   try {
     // Connect to MongoDB
     await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/restaurant-admin', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
+      socketTimeoutMS: 45000, // Close sockets after 45s of inactivity
     });
 
     console.log('Connected to MongoDB');

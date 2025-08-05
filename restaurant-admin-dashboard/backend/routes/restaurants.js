@@ -1,6 +1,6 @@
-const express = require('express');
-const { body, validationResult } = require('express-validator');
-const Restaurant = require('../models/Restaurant');
+import express from 'express';
+import { body, validationResult } from 'express-validator';
+import Restaurant from '../models/Restaurant.js';
 
 const router = express.Router();
 
@@ -147,4 +147,4 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

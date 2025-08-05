@@ -1,79 +1,67 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpInterceptor,
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpErrorResponse
-} from '@angular/common/http';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { catchError, filter, take, switchMap } from 'rxjs/operators';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { catchError, switchMap } from 'rxjs/operators';
+import { throwError, of } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { ToastService } from '../services/toast.service';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  private isRefreshing = false;
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+  const toastService = inject(ToastService);
 
-  constructor(private authService: AuthService) {}
-
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Add auth header if token exists
-    const token = this.authService.getToken();
-    if (token) {
-      req = this.addToken(req, token);
-    }
-
-    return next.handle(req).pipe(
-      catchError(error => {
-        if (error instanceof HttpErrorResponse && error.status === 401) {
-          return this.handle401Error(req, next);
-        } else {
-          return throwError(() => error);
-        }
-      })
-    );
+  // Skip interceptor for auth endpoints
+  if (req.url.includes('/auth/')) {
+    return next(req);
   }
 
-  private addToken(request: HttpRequest<any>, token: string): HttpRequest<any> {
-    return request.clone({
-      setHeaders: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-  }
+  // Get the token
+  const token = authService.getToken();
+  
+  // Clone request and add authorization header if token exists
+  const authReq = token ? req.clone({
+    headers: req.headers.set('Authorization', `Bearer ${token}`)
+  }) : req;
 
-  private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!this.isRefreshing) {
-      this.isRefreshing = true;
-      this.refreshTokenSubject.next(null);
-
-      return this.authService.refreshToken().pipe(
-        switchMap((response: any) => {
-          this.isRefreshing = false;
-          const newToken = response.data?.token;
-          if (newToken) {
-            this.refreshTokenSubject.next(newToken);
-            return next.handle(this.addToken(request, newToken));
-          } else {
-            this.authService.logout();
-            return throwError(() => new Error('Token refresh failed'));
+  return next(authReq).pipe(
+    catchError(error => {
+      if (error.status === 401) {
+        // Token expired or invalid
+        if (error.error?.message === 'Token has expired') {
+          // Try to refresh token
+          const refreshToken = authService.getRefreshToken();
+          if (refreshToken) {
+            return authService.refreshToken().pipe(
+              switchMap(response => {
+                // Retry original request with new token
+                const newAuthReq = req.clone({
+                  headers: req.headers.set('Authorization', `Bearer ${response.data.token}`)
+                });
+                return next(newAuthReq);
+              }),
+              catchError(refreshError => {
+                // Refresh failed, logout user
+                authService.logout();
+                router.navigate(['/login']);
+                toastService.error('Session expired. Please login again.');
+                return throwError(() => refreshError);
+              })
+            );
           }
-        }),
-        catchError((err) => {
-          this.isRefreshing = false;
-          this.authService.logout();
-          return throwError(() => err);
-        })
-      );
-    } else {
-      return this.refreshTokenSubject.pipe(
-        filter(token => token != null),
-        take(1),
-        switchMap(jwt => {
-          return next.handle(this.addToken(request, jwt));
-        })
-      );
-    }
-  }
-}
+        }
+        
+        // No refresh token or other 401 error
+        authService.logout();
+        router.navigate(['/login']);
+        toastService.error('Authentication required. Please login.');
+      } else if (error.status === 403) {
+        toastService.error('You do not have permission to access this resource.');
+      } else if (error.status >= 500) {
+        toastService.error('Server error. Please try again later.');
+      }
+
+      return throwError(() => error);
+    })
+  );
+};

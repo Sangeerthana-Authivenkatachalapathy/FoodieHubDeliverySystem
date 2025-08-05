@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const addressSchema = new mongoose.Schema({
   street: {
@@ -334,4 +334,4 @@ restaurantSchema.methods.reject = function(reviewerId, reason, notes) {
   return this.save();
 };
 
-module.exports = mongoose.model('Restaurant', restaurantSchema);
+export default mongoose.model('Restaurant', restaurantSchema);

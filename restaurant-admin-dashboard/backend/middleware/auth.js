@@ -1,9 +1,9 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
-const auth = async (req, res, next) => {
+export const auth = async (req, res, next) => {
   try {
     // Get token from header
     const authHeader = req.header('Authorization');
@@ -69,7 +69,7 @@ const auth = async (req, res, next) => {
 };
 
 // Middleware to check specific permissions
-const checkPermission = (permission) => {
+export const checkPermission = (permission) => {
   return (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({
@@ -96,7 +96,7 @@ const checkPermission = (permission) => {
 };
 
 // Middleware to check if user is admin
-const isAdmin = (req, res, next) => {
+export const isAdmin = (req, res, next) => {
   if (!req.user) {
     return res.status(401).json({
       success: false,
@@ -115,7 +115,7 @@ const isAdmin = (req, res, next) => {
 };
 
 // Middleware to check if user is super admin
-const isSuperAdmin = (req, res, next) => {
+export const isSuperAdmin = (req, res, next) => {
   if (!req.user) {
     return res.status(401).json({
       success: false,
@@ -131,11 +131,4 @@ const isSuperAdmin = (req, res, next) => {
   }
 
   next();
-};
-
-module.exports = {
-  auth,
-  checkPermission,
-  isAdmin,
-  isSuperAdmin
 };
