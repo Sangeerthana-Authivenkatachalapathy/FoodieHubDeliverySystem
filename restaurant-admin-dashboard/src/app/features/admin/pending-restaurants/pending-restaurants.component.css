@@ -1,0 +1,302 @@
+.pending-restaurants-container {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.page-header {
+  background: white;
+  padding: 24px 32px;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title-section h1 {
+  margin: 0 0 4px 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+}
+
+.title-section p {
+  margin: 0;
+  color: #666;
+  font-size: 16px;
+}
+
+.page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Search Section */
+.search-section {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.search-field {
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Bulk Actions */
+.bulk-actions {
+  background: #e3f2fd;
+  padding: 16px 20px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 4px solid #2196f3;
+}
+
+.selection-info {
+  font-weight: 500;
+  color: #1976d2;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.action-buttons button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Table Container */
+.table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Table Styles */
+.mat-mdc-table {
+  width: 100%;
+}
+
+.table-row {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.table-row:hover {
+  background-color: #f5f5f5;
+}
+
+.mat-mdc-header-cell {
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+/* Restaurant Image */
+.restaurant-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.restaurant-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Restaurant Info */
+.restaurant-info .name {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.restaurant-info .email {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 2px;
+}
+
+.restaurant-info .phone {
+  font-size: 13px;
+  color: #999;
+}
+
+/* Location Info */
+.location-info .city {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.location-info .address {
+  font-size: 13px;
+  color: #666;
+}
+
+/* Cuisine Tags */
+.cuisine-tags {
+  max-width: 200px;
+}
+
+.cuisine-tags mat-chip-listbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.cuisine-tags mat-chip {
+  font-size: 11px;
+  min-height: 20px;
+  padding: 0 8px;
+}
+
+/* Submitted Date */
+.submitted-date {
+  font-weight: 500;
+  color: #333;
+}
+
+.submitted-date .time {
+  font-size: 12px;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.action-buttons button {
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+}
+
+.action-buttons mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Loading Container */
+.loading-container {
+  padding: 48px 20px;
+  text-align: center;
+}
+
+/* No Data */
+.no-data {
+  text-align: center;
+  padding: 64px 20px;
+  color: #666;
+}
+
+.no-data mat-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+  color: #ccc;
+}
+
+.no-data h3 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.no-data p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Pagination */
+.mat-mdc-paginator {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .page-header {
+    padding: 16px 20px;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+  
+  .page-content {
+    padding: 20px;
+    gap: 16px;
+  }
+  
+  .search-section {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .search-field {
+    max-width: none;
+  }
+  
+  .bulk-actions {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  
+  .action-buttons {
+    justify-content: center;
+  }
+  
+  /* Hide some columns on mobile */
+  .mat-column-image,
+  .mat-column-cuisine {
+    display: none;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .mat-column-location {
+    display: none;
+  }
+}

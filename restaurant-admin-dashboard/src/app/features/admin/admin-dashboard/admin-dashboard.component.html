@@ -1,0 +1,171 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div class="header-content">
+      <div class="welcome-section">
+        <h1>Welcome back, {{ currentUser?.name }}!</h1>
+        <p>Manage restaurant applications and monitor system activity</p>
+      </div>
+      <div class="header-actions">
+        <button mat-icon-button (click)="refreshData()" [disabled]="loading">
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button mat-icon-button [matMenuTriggerFor]="userMenu">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item disabled>
+            <mat-icon>person</mat-icon>
+            <span>{{ currentUser?.email }}</span>
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <app-loading-spinner 
+    *ngIf="loading" 
+    [size]="50" 
+    message="Loading dashboard data...">
+  </app-loading-spinner>
+
+  <!-- Dashboard Content -->
+  <div class="dashboard-content" *ngIf="!loading">
+    
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+      <div class="stat-card pending" (click)="navigateTo('pending-restaurants')">
+        <div class="stat-icon">
+          <mat-icon>schedule</mat-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ stats.pending }}</div>
+          <div class="stat-label">Pending Applications</div>
+        </div>
+        <div class="stat-action">
+          <mat-icon>arrow_forward</mat-icon>
+        </div>
+      </div>
+
+      <div class="stat-card approved" (click)="navigateTo('approved-restaurants')">
+        <div class="stat-icon">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ stats.approved }}</div>
+          <div class="stat-label">Approved Restaurants</div>
+        </div>
+        <div class="stat-action">
+          <mat-icon>arrow_forward</mat-icon>
+        </div>
+      </div>
+
+      <div class="stat-card rejected" (click)="navigateTo('rejected-restaurants')">
+        <div class="stat-icon">
+          <mat-icon>cancel</mat-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ stats.rejected }}</div>
+          <div class="stat-label">Rejected Applications</div>
+        </div>
+        <div class="stat-action">
+          <mat-icon>arrow_forward</mat-icon>
+        </div>
+      </div>
+
+      <div class="stat-card total">
+        <div class="stat-icon">
+          <mat-icon>restaurant</mat-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ stats.total }}</div>
+          <div class="stat-label">Total Applications</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Applications -->
+    <div class="dashboard-section">
+      <div class="section-header">
+        <h2>Recent Applications</h2>
+        <button mat-button color="primary" (click)="navigateTo('pending-restaurants')">
+          View All
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+      
+      <div class="recent-applications">
+        <div class="application-item" *ngFor="let app of recentApplications">
+          <div class="app-avatar">
+            <img [src]="app.images?.[0] || 'assets/restaurant-placeholder.png'" 
+                 [alt]="app.name"
+                 (error)="$event.target.src='assets/restaurant-placeholder.png'">
+          </div>
+          <div class="app-details">
+            <div class="app-name">{{ app.name }}</div>
+            <div class="app-location">{{ app.address?.city }}, {{ app.address?.state }}</div>
+            <div class="app-submitted">Submitted {{ app.submittedAt | date:'short' }}</div>
+          </div>
+          <div class="app-status">
+            <span class="status-badge" [style.color]="getStatusColor(app.status)">
+              <mat-icon>{{ getStatusIcon(app.status) }}</mat-icon>
+              {{ app.status | titlecase }}
+            </span>
+          </div>
+          <div class="app-actions">
+            <button mat-icon-button color="primary" (click)="navigateTo('restaurant-details/' + app.id)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </div>
+        </div>
+        
+        <div class="no-applications" *ngIf="recentApplications.length === 0">
+          <mat-icon>inbox</mat-icon>
+          <p>No recent applications</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="dashboard-section">
+      <div class="section-header">
+        <h2>Quick Actions</h2>
+      </div>
+      
+      <div class="quick-actions">
+        <button 
+          mat-raised-button 
+          color="primary" 
+          (click)="navigateTo('pending-restaurants')"
+          class="action-btn">
+          <mat-icon>schedule</mat-icon>
+          Review Pending Applications
+        </button>
+        
+        <button 
+          mat-raised-button 
+          color="accent" 
+          (click)="navigateTo('approved-restaurants')"
+          class="action-btn">
+          <mat-icon>restaurant_menu</mat-icon>
+          Manage Restaurants
+        </button>
+        
+        <button 
+          mat-raised-button 
+          (click)="navigateTo('reports')"
+          class="action-btn">
+          <mat-icon>analytics</mat-icon>
+          View Reports
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
