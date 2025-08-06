@@ -1,4 +1,4 @@
-﻿using Microsoft.Identity.Client;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FoodieHubDeliverySystem.Repository.Enums;
 
 namespace FoodieHubDeliverySystem.Repository.Models
 {
@@ -28,6 +29,7 @@ namespace FoodieHubDeliverySystem.Repository.Models
         [Required]
         public string? LicenseCretification { get; set; }
         public DateTime CreatedAt { get; internal set; }
+        public RestaurantStatus Status { get; set; } = RestaurantStatus.Pending;
         //[ForeignKey("UserId")]
         //public User User { get; set; }
 
