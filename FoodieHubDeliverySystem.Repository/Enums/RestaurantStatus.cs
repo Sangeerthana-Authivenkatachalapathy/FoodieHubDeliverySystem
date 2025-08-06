@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace FoodieHubDeliverySystem.Repository.Enums
 {
-    public enum PaymentStatus
+    public enum RestaurantStatus
     {
-        Pending,
-        Paid,
-        Failed
+        Pending = 0,
+        Approved = 1,
+        Rejected = 2
     }
 }

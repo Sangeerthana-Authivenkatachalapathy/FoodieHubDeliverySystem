@@ -1,53 +1,16 @@
-﻿using FoodieHubDeliverySystem.Repository.Models;
-<<<<<<< HEAD
-<<<<<<< HEAD
+using FoodieHubDeliverySystem.Repository.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.Intrinsics.Arm;
-=======
-=======
-
-using Microsoft.EntityFrameworkCore;
-using System.Runtime.Intrinsics.Arm;
->>>>>>> master
 using FoodieHubDeliverySystem.Repository.Models.FoodieHubDeliverySystem.Repository.Models;
-using Microsoft.EntityFrameworkCore;
->>>>>>> master
-
 
 namespace FoodieHubDeliverySystem.Data
 {
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-<<<<<<< HEAD
-<<<<<<< HEAD
         {
-
         }
 
-        public DbSet<DeliveryPartner> DeliveryPartners { get; set; }
-
-        public DbSet<User> Users { get; set; }
-        public DbSet<FoodOrder> FoodOrders { get; set; }
-        public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<Payment> Payments { get; set; }
-         
-        public DbSet<Address> Addresses { get; set; }
-
-
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            
-=======
-        { }
-=======
-
-        {
-
-        
-         }
->>>>>>> master
         public DbSet<User> Users { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -60,6 +23,7 @@ namespace FoodieHubDeliverySystem.Data
         public DbSet<Restaurant> RestaurantDetails { get; set; }
         public DbSet<DeliveryPartner> DeliveryPartners { get; set; }
         public DbSet<RestaurantReview> RestaurantReviews { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -127,13 +91,6 @@ namespace FoodieHubDeliverySystem.Data
                 .HasForeignKey(o => o.DeliveryPartnerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // FoodOrder ↔ Payment
-            modelBuilder.Entity<FoodOrder>()
-                .HasOne(o => o.Payment)
-                .WithOne()
-                .HasForeignKey<FoodOrder>(o => o.PaymentId)
-                .OnDelete(DeleteBehavior.NoAction);
-
             // OrderItem ↔ MenuItem
             modelBuilder.Entity<OrderItem>()
                 .HasOne(oi => oi.MenuItem)
@@ -146,30 +103,12 @@ namespace FoodieHubDeliverySystem.Data
                 .WithMany(u => u.DeliveryAddresses)
                 .HasForeignKey(da => da.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
->>>>>>> master
-
 
             modelBuilder.Entity<DeliveryPartner>()
                 .HasOne(dp => dp.User)
                 .WithMany()
-<<<<<<< HEAD
-<<<<<<< HEAD
-                .HasForeignKey(dp => dp.UserId);
-
-            base.OnModelCreating(modelBuilder);
-=======
-=======
-
->>>>>>> master
                 .HasForeignKey(dp => dp.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<FoodOrder>()
-                .HasOne(o => o.DeliveryPartner)
-                .WithMany(dp => dp.DeliveredOrders)
-                .HasForeignKey(o => o.DeliveryPartnerId)
-                .OnDelete(DeleteBehavior.NoAction);
->>>>>>> master
         }
     }
 }
